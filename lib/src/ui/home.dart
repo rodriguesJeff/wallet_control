@@ -1,9 +1,126 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
+import 'package:wallet/src/controller/addrem.dart';
+import 'package:wallet/src/ui/widgets/textField.dart';
+//import 'package:flutter/rendering.dart';
 
-class HomePage extends StatelessWidget {
+
+
+class HomePage extends StatefulWidget {
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final controllerText = TextEditingController();
+  final controllerPrice = TextEditingController();
+
+  void _showModalAddCredit() {
+    showModalBottomSheet(context: context, builder: (builder) {
+      final operations = Provider.of<Operations>(context);      
+      return Container(
+        child: Form(
+          key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Adicione Saldo",
+                  style: TextStyle(fontSize: 20.0)
+                ),
+                SizedBox(height: 2),
+                textField(controllerText, "Origem do dinheiro", "", TextInputType.text),
+                SizedBox(height: 10),
+                textField(controllerPrice, "Preço", "R\$", TextInputType.number),
+                SizedBox(height: 10),
+                ButtonTheme(
+                  minWidth: 150,
+                  height: 50,
+                  child: RaisedButton(
+                    child: Text(
+                      "Adicionar",
+                      style: TextStyle(color: Colors.white, fontSize: 20.0)
+                    ),
+                    onPressed: () {
+                      if (formKey.currentState.validate()){
+                        var value = double.parse(controllerPrice.text);
+                        operations.creditValue(value);
+                        controllerPrice.text = "";
+                        controllerText.text = "";
+                      }
+                    },
+                  )
+                )
+              ],
+            ),
+        ),
+        padding: EdgeInsets.all(15.0),
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(15)
+        ),
+      );
+    });
+  }
+
+  void _showModalAddDebit() {
+    showModalBottomSheet(context: context, builder: (builder) {
+      final operations = Provider.of<Operations>(context);
+      return Container(
+        child: Form(
+          key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  "Remova Saldo",
+                  style: TextStyle(fontSize: 20.0)
+                ),
+                SizedBox(height: 2),
+                textField(controllerText, "Destino do dinheiro", "", TextInputType.text,),
+                SizedBox(height: 10),
+                textField(controllerPrice, "Preço", "R\$", TextInputType.number,),
+                SizedBox(height: 10),
+                ButtonTheme(
+                  minWidth: 150,
+                  height: 50,
+                  child: RaisedButton(
+                    child: Text(
+                      "Remover",
+                      style: TextStyle(color: Colors.white, fontSize: 20.0)
+                    ),
+                    onPressed: () {
+                      if (formKey.currentState.validate()){
+                        var value = double.parse(controllerPrice.text);
+                        operations.debitValue(value);
+                        controllerPrice.text = "";
+                        controllerText.text = "";
+                      }
+                    },
+                  )
+                )
+              ],
+            ),
+        ),
+        padding: EdgeInsets.all(15.0),
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(15)
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    final operations = Provider.of<Operations>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
@@ -57,7 +174,7 @@ class HomePage extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            "R\$ 1.290,00",
+                            'R\$ ${operations.getValue()}',
                             style: TextStyle(
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
@@ -90,7 +207,9 @@ class HomePage extends StatelessWidget {
                                     fontSize: 17.0
                                 )
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              _showModalAddCredit();
+                            },
                           )
                       ),
                       SizedBox(height: 11),
@@ -113,7 +232,9 @@ class HomePage extends StatelessWidget {
                                     fontSize: 17.0
                                 ),
                               ),
-                              onPressed: (){}
+                              onPressed: (){
+                                _showModalAddDebit();
+                              }
                           )
                       ),
                     ],
@@ -140,6 +261,27 @@ class HomePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Center(
+                            child: Text(
+                              "Movimentação Mensal: ",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)  
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            'Gastos: ${operations.getDebit()}',
+                            style: TextStyle(fontSize: 17),  
+                          ),
+                          Text(
+                            'Lucros: ${operations.getCredit()}',
+                            style: TextStyle(fontSize: 17),  
+                          ),
+                        ],
                       ),
                     )
                   ],

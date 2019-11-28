@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wallet/src/controller/addrem.dart';
 
 import 'package:wallet/src/ui/widgets/textformfield.dart';
 
@@ -15,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //final operations = Provider.of<Operations>(context);
     return Container(
       height: double.infinity,
       decoration: BoxDecoration(
