@@ -274,13 +274,17 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           SizedBox(height: 20),
-                          Text(
-                            'Gastos: ${operations.getDebit()}',
-                            style: TextStyle(fontSize: 17),  
+                          Observer(
+                            builder: (_) => Text(
+                              'Gastos: ${operations.getDebit()}',
+                              style: TextStyle(fontSize: 17),  
+                            ),
                           ),
-                          Text(
-                            'Lucros: ${operations.getCredit()}',
-                            style: TextStyle(fontSize: 17),  
+                          Observer(
+                            builder: (_) => Text(
+                              'Lucros: ${operations.getCredit()}',
+                              style: TextStyle(fontSize: 17),  
+                            )
                           ),
                         ],
                       ),
