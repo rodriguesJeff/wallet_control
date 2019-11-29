@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:wallet/src/controller/addrem.dart';
+import 'package:wallet/src/controller/operations.dart';
 import 'package:wallet/src/ui/widgets/textField.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 //import 'package:flutter/rendering.dart';
 
-
+final operations = Operations();
 
 class HomePage extends StatefulWidget {
 
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
 
   void _showModalAddCredit() {
     showModalBottomSheet(context: context, builder: (builder) {
-      final operations = Provider.of<Operations>(context);      
+            
       return Container(
         child: Form(
           key: formKey,
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       if (formKey.currentState.validate()){
                         var value = double.parse(controllerPrice.text);
-                        operations.creditValue(value);
+                        operations.credit(value);
                         controllerPrice.text = "";
                         controllerText.text = "";
                       }
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
 
   void _showModalAddDebit() {
     showModalBottomSheet(context: context, builder: (builder) {
-      final operations = Provider.of<Operations>(context);
+      
       return Container(
         child: Form(
           key: formKey,
@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       if (formKey.currentState.validate()){
                         var value = double.parse(controllerPrice.text);
-                        operations.debitValue(value);
+                        operations.debit(value);
                         controllerPrice.text = "";
                         controllerText.text = "";
                       }
@@ -119,7 +119,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    final operations = Provider.of<Operations>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -173,13 +172,15 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text(
-                            'R\$ ${operations.getValue()}',
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white
-                            ),
+                          Observer(
+                            builder: (_) => Text(
+                              'R\$ ${operations.getBalance()}',
+                              style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white
+                              ),
+                            )
                           ),
                         ],
                       ),
