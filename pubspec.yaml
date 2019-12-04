@@ -15,7 +15,6 @@ dependencies:
   flutter_mobx: ^0.3.3
 
   cupertino_icons: ^0.1.2
-  provider: any
 
 dev_dependencies:
   flutter_test:

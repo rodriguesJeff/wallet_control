@@ -17,6 +17,13 @@ abstract class OperationsBase with Store {
   double _debitTotal = 0;
   getDebit() => _debitTotal;
 
+  @observable
+  double total = 0;
+  getTotal(){
+    total = (40/100) * _balance;
+    return total;
+  }
+
   @action 
   void credit(value){
     _balance = _balance + value;
@@ -28,4 +35,5 @@ abstract class OperationsBase with Store {
     _balance = _balance - value;
     _debitTotal = _debitTotal + value;
   }
+
 }

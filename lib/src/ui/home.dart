@@ -254,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white
                       ),
-                    ),
+                    ),                    
                     SizedBox(height: 20.0),
                     Container(
                       height: 300.0,
@@ -273,19 +273,69 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)  
                             ),
                           ),
-                          SizedBox(height: 20),
-                          Observer(
-                            builder: (_) => Text(
-                              'Gastos: ${operations.getDebit()}',
-                              style: TextStyle(fontSize: 17),  
+                          SizedBox(height: 15),
+                          Text(
+                            "Saídas:",
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Observer(
-                            builder: (_) => Text(
-                              'Lucros: ${operations.getCredit()}',
-                              style: TextStyle(fontSize: 17),  
-                            )
+                          Padding(
+                            padding: EdgeInsets.only(top: 10, left: 20, bottom: 5),
+                            child: Observer(
+                              builder: (_) => Text(
+                                'R\$ ${operations.getDebit()}',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold  
+                                ),  
+                              ),
+                            ),
                           ),
+                          SizedBox(height: 5),
+                          Text(
+                            "Entradas: ",
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10, left: 20),
+                            child: Observer(
+                              builder: (_) => Text(
+                                'R\$ ${operations.getCredit()}',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green  
+                                ),  
+                              )
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Você pode gastar até:",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 3, left: 20),
+                            child: Observer(
+                              builder: (_) => Text(
+                                "R\$ ${operations.getTotal()} (40% do saldo)",
+                                style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     )
