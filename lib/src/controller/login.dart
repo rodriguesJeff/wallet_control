@@ -2,6 +2,7 @@ import 'package:mobx/mobx.dart';
 
 part 'login.g.dart';
 
+
 class Login = LoginBase with _$Login;
 
 abstract class LoginBase with Store {

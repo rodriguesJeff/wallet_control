@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wallet/src/ui/widgets/loginForm.dart';
 
+import '../controller/login.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class LoginPage extends StatefulWidget {
 final GlobalKey<ScaffoldState> _scaffoldstate = GlobalKey<ScaffoldState>();
 
 class _LoginPageState extends State<LoginPage> {
+  final login = Login();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -107,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 FlatButton(
                   onPressed: () {
-
                   },
                   child: Text(
                     "Ou entre com o Google",

@@ -13,7 +13,7 @@ dependencies:
 
   mobx: ^0.3.8
   flutter_mobx: ^0.3.3
-
+  dio: 3.0.7
   cupertino_icons: ^0.1.2
 
 dev_dependencies:

@@ -60,6 +60,23 @@ mixin _$Operations on OperationsBase, Store {
     }, _$_debitTotalAtom, name: '${_$_debitTotalAtom.name}_set');
   }
 
+  final _$totalAtom = Atom(name: 'OperationsBase.total');
+
+  @override
+  double get total {
+    _$totalAtom.context.enforceReadPolicy(_$totalAtom);
+    _$totalAtom.reportObserved();
+    return super.total;
+  }
+
+  @override
+  set total(double value) {
+    _$totalAtom.context.conditionallyRunInAction(() {
+      super.total = value;
+      _$totalAtom.reportChanged();
+    }, _$totalAtom, name: '${_$totalAtom.name}_set');
+  }
+
   final _$OperationsBaseActionController =
       ActionController(name: 'OperationsBase');
 

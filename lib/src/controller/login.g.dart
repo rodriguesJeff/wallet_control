@@ -42,4 +42,16 @@ mixin _$Login on LoginBase, Store {
       _$passAtom.reportChanged();
     }, _$passAtom, name: '${_$passAtom.name}_set');
   }
+
+  final _$LoginBaseActionController = ActionController(name: 'LoginBase');
+
+  @override
+  dynamic autentic(dynamic email, dynamic pass) {
+    final _$actionInfo = _$LoginBaseActionController.startAction();
+    try {
+      return super.autentic(email, pass);
+    } finally {
+      _$LoginBaseActionController.endAction(_$actionInfo);
+    }
+  }
 }
