@@ -1,41 +1,43 @@
+import 'dart:async';
+import 'dart:core';
+
 import 'package:mobx/mobx.dart';
 import 'package:dio/dio.dart';
-import 'package:wallet/src/model/userModel.dart';
+import 'package:wallet/src/model/user_model.dart';
+
+import '../../core.dart';
 
 part 'register.g.dart';
-
-BaseOptions option = BaseOptions(
-  baseUrl: "http://192.168.1.5:9900/api/",
-  connectTimeout: 5000
-);
-Dio dio = Dio(option);
 
 class Register = RegisterBase with _$Register;
 
 abstract class RegisterBase with Store {
   @observable
   String email = "";
-
-  @observable 
   String name = "";
-
-  @observable 
   String username = "";
-
-  @observable 
+  String lastname = "";
   String pass = "";
-
-  @observable 
-  Response response = Response();
+  Dio dio = Dio();
 
   @action
-  saveUser(email, name, username, pass) async {
-    var user = User.fromJson({
+  Future saveUser(email, name, lastname, username, pass) async {
+    var _user = User.fromJson({
       "email": email,
       "name": name,
+      "lastname": lastname,
       "username": username,
       "pass": pass
     });
-    response = await dio.post("/users", data: user);
+    var res =
+        await dio.post(Core.baseurl + '/register', data: _user);
+
+    if (res.statusCode != 200) {
+      print('deu erro');
+      return null;
+    } else {
+      var status = 'ok';
+      return status;
+    }
   }
 }
