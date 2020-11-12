@@ -3,7 +3,6 @@ import 'package:wallet/src/ui/widgets/loginForm.dart';
 
 import '../controller/login.dart';
 
-
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -40,41 +39,37 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(
                         fontSize: 30.0,
                         color: Colors.white,
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 textformfield(_formKey, context),
                 ButtonTheme(
-                  minWidth: 130.0,
-                  height: 50.0,
-                  child: RaisedButton(
-                    color: Colors.blueGrey[200],
-                    child: Text(
-                        "ENTRAR",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25.0,
-                        )
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()){
-                        var pass = passController.text;
-                        var email = loginController.text;
-                        login.autentic(email, pass);
-                        
-                        if (login.autentic(email, pass) == false){                    
-                          _scaffoldstate.currentState.showSnackBar(
-                            SnackBar(content: Text("Usuário ou senha incorretos"))
-                          );
-                        } else {
-                          Navigator.pushReplacementNamed(context, "/home");
+                    minWidth: 130.0,
+                    height: 50.0,
+                    child: RaisedButton(
+                      color: Colors.blueGrey[200],
+                      child: Text("ENTRAR",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25.0,
+                          )),
+                      onPressed: () async {
+                        if (_formKey.currentState.validate()) {
+                          var pass = passController.text;
+                          var email = loginController.text;
+
+                          var auth = await login.autentic(email, pass);
+
+                          if (auth == null) {
+                            _scaffoldstate.currentState.showSnackBar(SnackBar(
+                                content: Text("Usuário ou senha incorretos")));
+                          } else {
+                            Navigator.pushReplacementNamed(context, "/home");
+                          }
+                          return null;
                         }
-                        return null;
-                      }                                
-                    },
-                  )
-                ),
+                      },
+                    )),
                 SizedBox(height: 15.0),
                 FlatButton(
                   onPressed: () {
@@ -92,39 +87,16 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(width: 5.0),
                       Text(
                         "Cadastre-se!",
-                        style: TextStyle(
-                            color: Colors.blue[900]
-                        ),
+                        style: TextStyle(color: Colors.blue[900]),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 40),
-                FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Image(image: AssetImage('assets/images/gicon.png')),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                  },
-                  child: Text(
-                    "Ou entre com o Google",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
-                  ),
-                )
               ],
             ),
           ),
-            
-
-        ),   
-      ),     
-    );        
+        ),
+      ),
+    );
   }
 }

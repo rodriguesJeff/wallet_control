@@ -27,7 +27,7 @@ mixin _$Register on RegisterBase, Store {
   final _$saveUserAsyncAction = AsyncAction('RegisterBase.saveUser');
 
   @override
-  Future saveUser(dynamic email, dynamic name, dynamic lastname,
+  Future<dynamic> saveUser(dynamic email, dynamic name, dynamic lastname,
       dynamic username, dynamic pass) {
     return _$saveUserAsyncAction
         .run(() => super.saveUser(email, name, lastname, username, pass));

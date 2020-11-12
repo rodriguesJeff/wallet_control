@@ -24,39 +24,17 @@ mixin _$Login on LoginBase, Store {
     });
   }
 
-  final _$passAtom = Atom(name: 'LoginBase.pass');
+  final _$autenticAsyncAction = AsyncAction('LoginBase.autentic');
 
   @override
-  String get pass {
-    _$passAtom.reportRead();
-    return super.pass;
-  }
-
-  @override
-  set pass(String value) {
-    _$passAtom.reportWrite(value, super.pass, () {
-      super.pass = value;
-    });
-  }
-
-  final _$LoginBaseActionController = ActionController(name: 'LoginBase');
-
-  @override
-  dynamic autentic(dynamic email, dynamic pass) {
-    final _$actionInfo =
-        _$LoginBaseActionController.startAction(name: 'LoginBase.autentic');
-    try {
-      return super.autentic(email, pass);
-    } finally {
-      _$LoginBaseActionController.endAction(_$actionInfo);
-    }
+  Future<String> autentic(dynamic email, dynamic pass) {
+    return _$autenticAsyncAction.run(() => super.autentic(email, pass));
   }
 
   @override
   String toString() {
     return '''
-email: ${email},
-pass: ${pass}
+email: ${email}
     ''';
   }
 }
